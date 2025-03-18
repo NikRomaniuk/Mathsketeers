@@ -5,6 +5,7 @@
     </head>
     <body>
         <h1 id="para1">Table Cards</h1>
+        <h1 id="para2"></h1>
         <img id="img1"\>
         <img id="img2"\>
         <img id="img3"\>
@@ -14,14 +15,17 @@
         <h1 id="para1">User Cards</h1>
         <img id="img6"\>
         <img id="img7"\>
+        <br><br>
         <button onclick="start()">Start</button>
+        <button onclick="round()">round</button>
     </body>
     <script>
         let cards = [];
         let userCards = [];
+        let count = 4;
+        let index = 5;
 
         function start(){
-            cards = [];
             for(let i = 0; i < 5; i++)
             {
                 let number = Math.floor(Math.random()*13 + 1);
@@ -36,6 +40,11 @@
         }
 
         function round(){
+            let number = Math.floor(Math.random()*13 + 1);
+            let suit = Math.floor(Math.random()*4 + 1);
+            cards.push(number + "" + suit);
+            let str = 'img' + count++;
+            document.getElementById(str).src = "images/" + cards[index++] + ".png";
 
         }
 
