@@ -2,72 +2,277 @@
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     </head>
-    <body>
+    <body class = "container">
+        <div id="box1"><h1 id="title" >Poker Hand Probability</h1></div>
+        <div id="box2"></div>
+        <div id="box3">
         <h1 id="para1">Table Cards</h1>
-        <h1 id="para2"></h1>
-        <img id="img1"\>
-        <img id="img2"\>
-        <img id="img3"\>
-        <img id="img4"\>
-        <img id="img5"\>
+        <img id="img1"></img>
+        <img id="img2"></img>
+        <img id="img3"></img>
+        <img id="img4"></img>
+        <img id="img5"></img>
+        </div>
+        <div></div>
+        <div id="box4">
+            <h3>Royal Flush</h3>
+            <img src="images/14.png"><img src="images/134.png"><img src="images/124.png"><img src="images/114.png"><img src="images/104.png">
+            <h3>Four of a Kind</h3>
+            <img src="images/133.png"><img src="images/131.png"><img src="images/132.png"><img src="images/134.png"><img src="images/82.png">
+            <h3>Flush</h3>
+            <img src="images/13.png"><img src="images/73.png"><img src="images/113.png"><img src="images/23.png"><img src="images/93.png">
+            <h3>Three of a Kind</h3>
+            <img src="images/121.png"><img src="images/123.png"><img src="images/124.png"><img src="images/61.png"><img src="images/22.png">
+            <h3>Pair</h3>
+            <img src="images/111.png"><img src="images/113.png"><img src="images/61.png"><img src="images/54.png"><img src="images/23.png">
+            </div>
+            
+        <div id="box5">
+            <h3>Straight Flush</h3>
+            <img src="images/52.png"><img src="images/62.png"><img src="images/72.png"><img src="images/82.png"><img src="images/92.png">
+            <h3>Full House</h3>
+            <img src="images/61.png"><img src="images/62.png"><img src="images/63.png"><img src="images/11.png"><img src="images/12.png">
+            <h3>Straight</h3>
+            <img src="images/11.png"><img src="images/22.png"><img src="images/33.png"><img src="images/44.png"><img src="images/52.png">
+            <h3>Two Pair</h3>
+            <img src="images/91.png"><img src="images/94.png"><img src="images/101.png"><img src="images/102.png"><img src="images/32.png">
+            <h3>High Card</h3>
+            <img src="images/131.png"><img src="images/54.png"><img src="images/62.png"><img src="images/24.png"><img src="images/114.png">
+        </div>
 
-        <h1 id="para1">User Cards</h1>
-        <img id="img6"\>
-        <img id="img7"\>
+        </div>
+        </div>
+        <div id="box6">
+
+        </div>
+        <div>
+        <h1 id="para2">User Cards</h1>
+        <img id="img6"></img>
+        <img id="img7"></img>
         <br><br>
         <button onclick="start()">Start</button>
         <button onclick="round()">round</button>
+        <button onclick="check()">Check</button>
+        </div>
 
-        <h3>Royal Flush</h3>
-        <img src="images/14.png"><img src="images/134.png"><img src="images/124.png"><img src="images/114.png"><img src="images/104.png">
-        <h3>Straight Flush</h3>
-        <img src="images/52.png"><img src="images/62.png"><img src="images/72.png"><img src="images/82.png"><img src="images/92.png">
-        <h3>Four of a Kind</h3>
-        <img src="images/133.png"><img src="images/131.png"><img src="images/132.png"><img src="images/134.png"><img src="images/82.png">
-        <h3>Full House</h3>
-        <img src="images/61.png"><img src="images/62.png"><img src="images/63.png"><img src="images/11.png"><img src="images/12.png">
-        <h3>Flush</h3>
-        <img src="images/13.png"><img src="images/73.png"><img src="images/113.png"><img src="images/23.png"><img src="images/93.png">
-        <h3>Straight</h3>
-        <img src="images/11.png"><img src="images/22.png"><img src="images/33.png"><img src="images/44.png"><img src="images/52.png">
-        <h3>Three of a Kind</h3>
-        <img src="images/121.png"><img src="images/123.png"><img src="images/124.png"><img src="images/61.png"><img src="images/22.png">
-        <h3>Two Pair</h3>
-        <img src="images/91.png"><img src="images/94.png"><img src="images/101.png"><img src="images/102.png"><img src="images/32.png">
-        <h3>Pair</h3>
-        <img src="images/111.png"><img src="images/113.png"><img src="images/61.png"><img src="images/54.png"><img src="images/23.png">
-        <h3>High Card</h3>
-        <img src="images/131.png"><img src="images/54.png"><img src="images/62.png"><img src="images/24.png"><img src="images/114.png">
+        <h1 id="array"></h1>
+        <h1 id="checker"></h1>
+        <h1 id="validCards"></h1>
+        <h1 id="probability"></h1>
+        <h1 id="head2"></h1>
+        <h1 id="suit"></h1>
+
+
+
+
     </body>
     <script>
-        let cards = [];
+        let cardsImage = [];
         let userCards = [];
+        let cards = [];
+        let suit = [];
         let count = 4;
         let index = 5;
+        let arrayRepetition = [];
+        let royalCards = [];
+        let suitRoyal = 0;
+        
+
+        function distributeCards()
+        {
+            let number = Math.floor(Math.random()*13 + 1);
+            let suitRandom = Math.floor(Math.random()*4 + 1);
+            cardsImage.push(number + "" + suitRandom);
+            cards.push(number);
+            suit.push(suitRandom);
+        }
+
 
         function start(){
             for(let i = 0; i < 5; i++)
             {
-                let number = Math.floor(Math.random()*13 + 1);
-                let suit = Math.floor(Math.random()*4 + 1);
-                cards.push(number + "" + suit);
+                distributeCards();
             }
-            document.getElementById("img1").src = "images/" + cards[0] + ".png";
-            document.getElementById("img2").src = "images/" + cards[1] + ".png";
-            document.getElementById("img3").src = "images/" + cards[2] + ".png";
-            document.getElementById("img6").src = "images/" + cards[3] + ".png";
-            document.getElementById("img7").src = "images/" + cards[4] + ".png";
+            document.getElementById("img1").src = "images/" + cardsImage[0] + ".png";
+            document.getElementById("img2").src = "images/" + cardsImage[1] + ".png";
+            document.getElementById("img3").src = "images/" + cardsImage[2] + ".png";
+            document.getElementById("img6").src = "images/" + cardsImage[3] + ".png";
+            document.getElementById("img7").src = "images/" + cardsImage[4] + ".png";
+
+            
+
         }
 
+       
         function round(){
-            let number = Math.floor(Math.random()*13 + 1);
-            let suit = Math.floor(Math.random()*4 + 1);
-            cards.push(number + "" + suit);
+            distributeCards();
             let str = 'img' + count++;
-            document.getElementById(str).src = "images/" + cards[index++] + ".png";
+            document.getElementById(str).src = "images/" + cardsImage[index++] + ".png";
+        }
+
+        
+        function check(){
+            document.getElementById("array").innerHTML = "Suits: " + suit.join(", ");
+            arrayRepetition = countRepetitions(suit);
+            document.getElementById("checker").innerHTML = "Repetition " + arrayRepetition.join(", ");
+            let hasMoreThan2 = isMoreThan2Suits(arrayRepetition);
+            document.getElementById("validCards").innerHTML = "More than 3 of a suit: " + hasMoreThan2;
+
+            if(hasMoreThan2)
+            {
+               let hasRoyal = isRoyal(cards);
+               document.getElementById("probability").innerHTML = "suit Royal: " + suitRoyal;
+            }
+
+            //document.getElementById("head2").innerHTML = "suits: " + suit.join(", ");
+
+            royalCards = getRoyalCards(suit, cards, suitRoyal);
+            document.getElementById("suit").innerHTML = "Royal cards: " + royalCards.join(", ");
+
+            
 
         }
+        
+        function isRoyal(array){
+            let count = 0;
+            for(let i = 0; i < array.length; i++)
+            {
+                let number = array[i]
+                switch(number)
+                {
+                    case 1:
+                    case 13:
+                    case 12:
+                    case 11:
+                    case 10:
+                        count++;
+                }
+                if(count > 2)
+                    return true;
+            }
+            return false;
+
+        }
+
+        function isMoreThan2Suits(array)
+        {
+            for(let i = 0; i < array.length; i++)
+            {
+               if(array[i] >= 3){
+                    return true;
+               }
+             }
+             return false;
+        }
+       
+            
+        function countRepetitions(array) { // return array of suits frequency
+            let arrayCopy = array;
+            let newArray1 = [];
+            let indexNewArray = 0;
+            let count = 1;
+            let highFrequency = 0;
+            for(let i = 0; i < arrayCopy.length; i++)
+            {
+                let num = arrayCopy[i];
+                let index = 1
+                for(let j = 1; j <  arrayCopy.length; j++)
+                {
+                    let numj = arrayCopy[index];
+                    if(num == numj)
+                    {
+                        count++;
+                        arrayCopy.splice(j, 1);
+                        j--;
+                    }
+                    else{
+                        index++;
+                    }
+                    
+                }
+            
+                arrayCopy.splice(i,1);
+                newArray1[indexNewArray] = count;
+                indexNewArray++;
+                if(count > 2)
+                {
+                    suitRoyal = num;
+                }
+                count = 1;
+                index = 1;
+                i--;
+            }
+            
+            return newArray1;
+        }
+
+        function getRoyalCards(array1, array2, suitRoyalNumber)
+        {
+            let arrayRoyal = [];
+            for(let i = 0; i < array1.length; i++)
+            {
+                if(array1[i] == suitRoyalNumber)
+                {
+                    arrayRoyal.push(array2[i]);
+                }
+            }
+            return arrayRoyal;
+        }
+
+     
+
+
+
+
+        /*
+
+        let cards1 = [8,6,11,5,7];
+        let validCards = validCardsChecker(cards1);
+        
+        function validCardsChecker(array) //outputs array with cards in sequence
+        {
+            array = array.sort(function(a,b){return a-b;}); // outputs array in numerical order
+            let valid = 0;
+            let arrayCards = [];
+            for(let i = 0; i < array.length; i++)
+            {
+                let checker = array[i+1] - array[i];
+                    if(checker <= 2)
+                    {
+                        arrayCards[valid] = array[i];
+                        arrayCards[valid + 1] = array[i+1];
+                        valid++;
+                    }
+            }
+                
+           
+
+            return arrayCards;
+        }
+
+       
+        
+        let newArray = [1,1,3,5,4,4,3,2,2,1,1,5,6];
+        let countArray = countRepetitions(newArray);
+        */
+       
+    
+
+      
+
+        /*let newArray1 = [1,1,3,5,4,4,3,2,2];
+        let number = newArray1[0];
+
+        newArray1.splice(0,number);
+
+        document.getElementById("array").innerHTML = newArray1;*/
+
+        
+
 
 
     </script>
