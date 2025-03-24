@@ -4,21 +4,27 @@
         <link rel="stylesheet" href="style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+       
     </head>
     <body class = "container">
-        <div id="box1"><h1 id="title" >Poker Hand Probability</h1></div>
-        <div id="box2"></div>
-        <div id="box3">
-        <h1 id="para1">Table Cards</h1>
-        <img id="img1"></img>
-        <img id="img2"></img>
-        <img id="img3"></img>
-        <img id="img4"></img>
-        <img id="img5"></img>
+        <div id="box1">
+            <h1 id="title" >Poker Hand Probability</h1>
         </div>
-        <div></div>
-        <div id="box4">
+        <div id="box2">
+            Players: <input id="players" oninput="players()" size="5px"/>
+        </div>
+
+        <div id="box3">
+            <h1 id="para1">Table Cards</h1>
+            <img id="img1"></img>
+            <img id="img2"></img>
+            <img id="img3"></img>
+            <img id="img4"></img>
+            <img id="img5"></img>
+        </div>
+        <div ></div>
+        <div id="box5">
             <h3>Royal Flush</h3>
             <img src="images/14.png"><img src="images/134.png"><img src="images/124.png"><img src="images/114.png"><img src="images/104.png">
             <h3>Four of a Kind</h3>
@@ -29,9 +35,9 @@
             <img src="images/121.png"><img src="images/123.png"><img src="images/124.png"><img src="images/61.png"><img src="images/22.png">
             <h3>Pair</h3>
             <img src="images/111.png"><img src="images/113.png"><img src="images/61.png"><img src="images/54.png"><img src="images/23.png">
-            </div>
+        </div>
             
-        <div id="box5">
+        <div id="box6">
             <h3>Straight Flush</h3>
             <img src="images/52.png"><img src="images/62.png"><img src="images/72.png"><img src="images/82.png"><img src="images/92.png">
             <h3>Full House</h3>
@@ -43,55 +49,82 @@
             <h3>High Card</h3>
             <img src="images/131.png"><img src="images/54.png"><img src="images/62.png"><img src="images/24.png"><img src="images/114.png">
         </div>
-
         </div>
         </div>
         <div id="box6">
+            <h1 id="outcomes"></h1>
 
+        </div>
+            <div id="box8">
+            <h1 id="para2">User Cards</h1>
+            <img id="img6"></img>
+            <img id="img7"></img>
+            <br><br>
+        </div>
+        <div></div>
+        <div>
+            <button onclick="start()">Start</button>
+            <button onclick="round()">round</button>
+            <button onclick="checkCards()">Check</button>
+            <button onclick="checkProbability3Kind()">3 of a kind</button>
+            <button onclick="checkProbability4Kind()">4 of a kind</button>
+            <button onclick="checkProbabilityFlush()">flush</button>
+        </div>
+        <div></div>
+        <div id="box13">
+            <h1 id="message"></h1>
+            <h1 id="array"></h1>
+            <h1 id="probability"></h1>
+            <h1 id="head2"></h1>
+            
         </div>
         <div>
-        <h1 id="para2">User Cards</h1>
-        <img id="img6"></img>
-        <img id="img7"></img>
-        <br><br>
-        <button onclick="start()">Start</button>
-        <button onclick="round()">round</button>
-        <button onclick="check()">Check</button>
+           
         </div>
-
-        <h1 id="array"></h1>
-        <h1 id="checker"></h1>
-        <h1 id="probability"></h1>
-        <h1 id="head2"></h1>
-        <h1 id="suit"></h1>
 
 
 
 
     </body>
     <script>
-        let cardsImage = [];
+let cardsImage = [];
         let userCards = [];
-        let cards = [];
+        let allCards = [];
         let suit = [];
         let count = 4;
         let index = 5;
         let arrayRepetition = [];
+        let suitRepetition = [];
         let royalCards = [];
         let suitRoyal = 0;
+        let probability = 0;
+        let numberOutcomes = 49; // cards available in the beggining of the game
+        let roundGame = 5; //keeps track to check if its the end of the game
         
+       
+
+        function players(){ // number of outcomes depending on the number of players
+           let numberPlayers =  document.getElementById("players").value;
+           let cardsByPlayer = 2;
+           let cardsOut = numberPlayers * cardsByPlayer; 
+           numberOutcomes -= cardsOut;
+        }
 
         function distributeCards()
         {
-            let number = Math.floor(Math.random()*13 + 1);
+            let numberRandom = Math.floor(Math.random()*13 + 1);
             let suitRandom = Math.floor(Math.random()*4 + 1);
-            cardsImage.push(number + "" + suitRandom);
-            cards.push(number);
+            cardsImage.push(numberRandom + "" + suitRandom);
+            allCards.push(numberRandom);
             suit.push(suitRandom);
         }
 
 
         function start(){
+            cardsImage = [];
+            allCards = [];
+            suit = [];
+
             for(let i = 0; i < 5; i++)
             {
                 distributeCards();
@@ -102,75 +135,31 @@
             document.getElementById("img6").src = "images/" + cardsImage[3] + ".png";
             document.getElementById("img7").src = "images/" + cardsImage[4] + ".png";
 
-            
-
+            //document.getElementById("outcomes").innerHTML = "Cards on deck: " + numberOutcomes; // cards on deck  GET THIS ON TO TEST
         }
 
-       
+
         function round(){
             distributeCards();
             let str = 'img' + count++;
             document.getElementById(str).src = "images/" + cardsImage[index++] + ".png";
+            document.getElementById("message").innerHTML = "";
+            numberOutcomes--;
+            roundGame++; 
         }
 
-        
-        function check(){
-            document.getElementById("array").innerHTML = "Suits: " + suit.join(", ");
-            arrayRepetition = countRepetitions(suit);
-            document.getElementById("checker").innerHTML = "Repetition " + arrayRepetition.join(", ");
-            let hasMoreThan2 = isMoreThan2Suits(arrayRepetition);
-            document.getElementById("validCards").innerHTML = "More than 3 of a suit: " + hasMoreThan2;
 
-            if(hasMoreThan2)
-            {
-               let hasRoyal = isRoyal(cards);
-               document.getElementById("probability").innerHTML = "suit Royal: " + suitRoyal;
-            }
+        function checkCards(){
+            arrayRepetition = countRepetitions(allCards);
+            suitRepetition = countRepetitions(suit);
+            //document.getElementById("array").innerHTML = "Cards Repetition: " + arrayRepetition.join(", ");  GET THIS ON TO TEST
+            //document.getElementById("head2").innerHTML = "Suit Repetition: " + suitRepetition.join(", ");    GET THIS ON TO TEST
 
-            //document.getElementById("head2").innerHTML = "suits: " + suit.join(", ");
-
-            royalCards = getRoyalCards(suit, cards, suitRoyal);
-            document.getElementById("suit").innerHTML = "Royal cards: " + royalCards.join(", ");
-
-            
-
-        }
-        
-        function isRoyal(array){
-            let count = 0;
-            for(let i = 0; i < array.length; i++)
-            {
-                let number = array[i]
-                switch(number)
-                {
-                    case 1:
-                    case 13:
-                    case 12:
-                    case 11:
-                    case 10:
-                        count++;
-                }
-                if(count > 2)
-                    return true;
-            }
-            return false;
-
+            //document.getElementById("outcomes").innerHTML = "Cards on deck: " + numberOutcomes; // cards on deck  GET THIS ON TO TEST
         }
 
-        function isMoreThan2Suits(array)
-        {
-            for(let i = 0; i < array.length; i++)
-            {
-               if(array[i] >= 3){
-                    return true;
-               }
-             }
-             return false;
-        }
-       
-            
         function countRepetitions(array) { // return array of suits frequency
-            let arrayCopy = array;
+            let arrayCopy = [...array];
             let newArray1 = [];
             let indexNewArray = 0;
             let count = 1;
@@ -191,9 +180,7 @@
                     else{
                         index++;
                     }
-                    
                 }
-            
                 arrayCopy.splice(i,1);
                 newArray1[indexNewArray] = count;
                 indexNewArray++;
@@ -205,25 +192,192 @@
                 index = 1;
                 i--;
             }
-            
             return newArray1;
         }
 
-        function getRoyalCards(array1, array2, suitRoyalNumber)
+
+        function is2repeated(array1)
         {
-            let arrayRoyal = [];
+            let count = 0;
             for(let i = 0; i < array1.length; i++)
             {
-                if(array1[i] == suitRoyalNumber)
+                if(array1[i] == 2)
                 {
-                    arrayRoyal.push(array2[i]);
+                    count++
                 }
             }
-            return arrayRoyal;
+            if(count == 2)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        
+        function checkProbability3Kind()
+        {
+            let probab3kind = checkProbab3Kind(arrayRepetition, allCards);
+            //document.getElementById("probability").innerHTML = "The probability of getting a 3 of a king is: " + probab;
+        }
+
+        function checkProbability4Kind()
+        {
+            let probab4kind = checkProbab4Kind(arrayRepetition, allCards);
+
+        }
+
+        function checkProbabilityFlush()
+        {
+            let probabFlush  = checkProbabFlush(suitRepetition, suit);
+        }
+
+
+        function highestNumber(array){
+            let highest = 0;
+            for(let i = 0; i < array.length; i++)
+            {
+                if(array[i] > highest)
+                {
+                    highest = array[i];
+                }
+            }
+            return highest;
+        }
+            
+
+        function checkProbab3Kind(arrayRep, arrayCards) // checks probability of 3 of a kind
+        {
+            let repNumber = highestNumber(arrayRep);
+            let repetition = countRepetitions(arrayRep);
+
+            //document.getElementById("head2").innerHTML = repetition.join(", "); GET THIS ON TO THEST
+            //document.getElementById("probability").innerHTML = "highest: " + repNumber;  GET THIS ON TO THEST
+
+            if(is2repeated(arrayRep)) // probability 3 of a kind having 2 pairs
+            {
+                if(roundGame == 7)
+                {
+                    document.getElementById("message").innerHTML = "You have 2 pairs."
+                }
+                else{
+                    probability = 4/numberOutcomes * 100;
+                    document.getElementById("message").innerHTML = "You have 2 pairs.<br>The probability of getting a 3 of a kind is: 4/"+ numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+                }
+            }
+            else if(repNumber == 1 && roundGame == 6)
+            {
+                 document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a 3 of a kind.<br>You need at least a pair for it."
+            }
+            else if(repNumber == 4)
+            {
+                document.getElementById("message").innerHTML = "Well done! You have a 4 of kind" ;
+            }
+            
+            else if(arrayRep.includes(2) && arrayRep.includes(3) ) //makes sure that a full house its not override
+            {
+                document.getElementById("message").innerHTML = "Well done! You have a full House";
+            }
+
+            else if(repNumber == 3)
+            {
+                document.getElementById("message").innerHTML = "Well done! You have a 3 of kind" ;
+            }
+            else if(arrayCards.length == 7 && repNumber < 3)
+            {
+            document.getElementById("message").innerHTML = "No more chances!";
+            }
+            else if(arrayCards.length == 7)
+            {
+                document.getElementById("message").innerHTML = "No more chances!";
+            }
+            else if(repNumber == 2)
+            {
+                probability = 2/numberOutcomes * 100;
+                document.getElementById("message").innerHTML = "You have a pair.<br>The probability of getting a 3 of a kind is: 2/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+            }
+            else if(repNumber == 1)
+            {
+                probability = 3/numberOutcomes * 100;
+                document.getElementById("message").innerHTML = "The probability of getting a 3 of a kind is: 3/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+            }
+            console.log(probability);
+            return probability;
+        }
+        
+        function checkProbab4Kind(arrayRep, arrayCards){ // checks probability of a 4 of a kind
+            let repNumber = highestNumber(arrayRep);
+            let repetition = countRepetitions(arrayRep);
+
+            if(is2repeated(arrayRep)) // probability 4 of a kind having 2 pairs
+            {
+                if(roundGame == 7)
+                {
+                    document.getElementById("message").innerHTML = "You have 2 pairs."
+                }
+                else if(roundGame == 6)
+                {
+                    document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a 4 of a kind.<br>You need at least 3 of kind for it."
+                }
+                else{
+                    probability = 4/numberOutcomes * 100;
+                    document.getElementById("message").innerHTML = "You have 2 pairs.<br>The probability of getting a 4 of a kind is: 4/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + " %)";
+                }
+            }
+            else if(repNumber < 4 && roundGame == 7)
+            {
+                document.getElementById("message").innerHTML = "No more chances."
+            }
+            else if(repNumber < 3 && roundGame == 6)
+            {
+                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a 4 of a kind.You need at least 3 of kind for it."
+            }
+            else if(repNumber == 3)
+            {
+                probability = 1 / numberOutcomes * 100;
+                document.getElementById("message").innerHTML = "You have a 3 of a kind.<br>The probability of getting a 4 of a kind is: 1/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+            }
+            else if(repNumber == 2)
+            {
+                probability = 2 / numberOutcomes * 100;
+                document.getElementById("message").innerHTML = "The probability of getting a 4 of a kind is: 2/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+            }
+            else if(repNumber == 1)
+            {
+                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a 4 of a kind.<br>You need at least one pair for it."
+            }
+        }
+
+        function checkProbabFlush(arrayRep, arraySuits)
+        {
+            let repNumber = highestNumber(arrayRep);
+            //let suitRep = countRepetitions(arrayRep);
+            document.getElementById("message").innerHTML = "Suit Repetition: " + suitRepetition;
+
+            if(repNumber == 5)
+            {
+                probability = 10/numberOutcomes * 100;
+                document.getElementById("message").innerHTML = "Well done! You have a flush!";
+            }
+            else if(repNumber == 4)
+            {
+                probability = 9/numberOutcomes * 100;
+                document.getElementById("message").innerHTML = "The probability of getting a flush is: 9/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+            }
+            else if(repNumber == 3)
+            {
+                probability = 10/numberOutcomes * 100;
+                document.getElementById("message").innerHTML = "The probability of getting a flush is: 10/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+            }
+            else if(repNumber < 3)
+            {
+                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a flush.<br>You need at least 3 cards of the same suit";
+            }
+
+            
+
         }
 
      
-
 
 
 

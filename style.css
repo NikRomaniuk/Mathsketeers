@@ -4,7 +4,7 @@
     
 }
 
-div {border: 2px solid black;}
+/*div {border: 2px solid black;}*/
 
 #box1 {
         grid-column: span 5;
@@ -17,14 +17,16 @@ div {border: 2px solid black;}
         color:rgb(218, 210, 3);
         }
 
-#box2 {column-width: 30px;}
+#box2 {column-width: 30px;
+        font-size: 2em;
+        padding-top: 10px;
+        color: white}
 
-#box3, #box5, #box8, #box6 {font-family: "Outfit", sans-serif;
+#box2, #box3, #box5, #box8, #box6 {font-family: "Outfit", sans-serif;
         font-optical-sizing: auto;
         font-weight: 500px;
          font-style: normal;
         color: rgb(9, 0, 0);
-        text-shadow: 1px 1px 0px black;
         }
 
 #box5 {grid-row: span 4;
@@ -40,7 +42,13 @@ div {border: 2px solid black;}
             height: 80px;
 }
 
-#box13 {grid-column: span 2;}
+#box13 {grid-column: span 2;
+        font-family: "Roboto", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: normal;
+        font-style: normal;
+        font-variation-settings:"wdth" 100;
+        color: white;}
 
 
 img {width: 80px;
