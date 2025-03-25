@@ -69,6 +69,8 @@
             <button onclick="checkProbability3Kind()">3 of a kind</button>
             <button onclick="checkProbability4Kind()">4 of a kind</button>
             <button onclick="checkProbabilityFlush()">flush</button>
+            <button onclick="checkProbabilityFullHouse()">Full House</button>
+            <button onclick="checkProbabilityStraight()">Straight</button>
         </div>
         <div></div>
         <div id="box13">
@@ -100,6 +102,7 @@ let cardsImage = [];
         let probability = 0;
         let numberOutcomes = 49; // cards available in the beggining of the game
         let roundGame = 5; //keeps track to check if its the end of the game
+        
         
        
 
@@ -231,8 +234,17 @@ let cardsImage = [];
             let probabFlush  = checkProbabFlush(suitRepetition, suit);
         }
 
+        function checkProbabilityFullHouse()
+        {
+            let probabFullHouse  = checkProbabHouse(arrayRepetition, allCards);
+        }
+        function checkProbabilityStraight()
+        {
+            let probabStraight  = checkProbabStraight(arrayRepetition, allCards);
+        }
 
-        function highestNumber(array){
+
+        function highestNumber(array){ // return the highest number in an array;
             let highest = 0;
             for(let i = 0; i < array.length; i++)
             {
@@ -243,6 +255,7 @@ let cardsImage = [];
             }
             return highest;
         }
+
             
 
         function checkProbab3Kind(arrayRep, arrayCards) // checks probability of 3 of a kind
@@ -259,7 +272,12 @@ let cardsImage = [];
                 {
                     document.getElementById("message").innerHTML = "You have 2 pairs."
                 }
-                else{
+                else if(roundGame == 5)
+                {
+                    document.getElementById("message").innerHTML = "You have 2 pairs.<br>The probability of getting a 3 of a kind is: 7/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+                }
+                else
+                {
                     probability = 4/numberOutcomes * 100;
                     document.getElementById("message").innerHTML = "You have 2 pairs.<br>The probability of getting a 3 of a kind is: 4/"+ numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
                 }
@@ -270,35 +288,40 @@ let cardsImage = [];
             }
             else if(repNumber == 4)
             {
-                document.getElementById("message").innerHTML = "Well done! You have a 4 of kind" ;
+                document.getElementById("message").innerHTML = "Well done! You have a 4 of kind!" ;
             }
             
             else if(arrayRep.includes(2) && arrayRep.includes(3) ) //makes sure that a full house its not override
             {
-                document.getElementById("message").innerHTML = "Well done! You have a full House";
+                document.getElementById("message").innerHTML = "Well done! You have a Full House!";
             }
 
             else if(repNumber == 3)
             {
-                document.getElementById("message").innerHTML = "Well done! You have a 3 of kind" ;
+                document.getElementById("message").innerHTML = "Well done! You have a 3 of kind!" ;
             }
-            else if(arrayCards.length == 7 && repNumber < 3)
+            else if(roundGame == 7 && repNumber < 3)
             {
             document.getElementById("message").innerHTML = "No more chances!";
             }
-            else if(arrayCards.length == 7)
+            else if(roundGame == 7)
             {
                 document.getElementById("message").innerHTML = "No more chances!";
             }
-            else if(repNumber == 2)
+            else if(repNumber == 2 && roundGame == 6) 
             {
                 probability = 2/numberOutcomes * 100;
                 document.getElementById("message").innerHTML = "You have a pair.<br>The probability of getting a 3 of a kind is: 2/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
             }
+            else if(repNumber == 2)
+            {
+                probability = 11/numberOutcomes * 100;
+                document.getElementById("message").innerHTML = "You have a pair.<br>The probability of getting a 3 of a kind is: 11/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+            }
             else if(repNumber == 1)
             {
-                probability = 3/numberOutcomes * 100;
-                document.getElementById("message").innerHTML = "The probability of getting a 3 of a kind is: 3/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+                probability = 15/numberOutcomes * 100;
+                document.getElementById("message").innerHTML = "The probability of getting a 3 of a kind is: 15/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
             }
             console.log(probability);
             return probability;
@@ -329,7 +352,20 @@ let cardsImage = [];
             }
             else if(repNumber < 3 && roundGame == 6)
             {
-                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a 4 of a kind.You need at least 3 of kind for it."
+                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a 4 of a kind.<br>You need at least 3 of kind for it."
+            }
+            else if(arrayRep.includes(2) && arrayRep.includes(3)) //makes sure that a full house its not override
+            {
+                if(roundGame == 5)
+                {
+                    probability = 3 / numberOutcomes * 100;
+                    document.getElementById("message").innerHTML = "You have a Full House.<br>The probability of getting a 4 of a kind is: 3/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+                }
+                else
+                {
+                    probability = 1 / numberOutcomes * 100;
+                    document.getElementById("message").innerHTML = "You have a Full House.<br>The probability of getting a 4 of a kind is: 1/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+                }
             }
             else if(repNumber == 3)
             {
@@ -343,38 +379,175 @@ let cardsImage = [];
             }
             else if(repNumber == 1)
             {
-                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a 4 of a kind.<br>You need at least one pair for it."
+                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a 4 of a kind.<br>You need at least a pair for it."
             }
+        }
+
+        function checkProbabHouse(arrayRep, arrayCards){
+            let repNumber = highestNumber(arrayRep);
+            let repetition = countRepetitions(arrayRep);
+
+            if(is2repeated(arrayRep)) // probability 3 of full house having 2 pairs
+            {
+                if(roundGame == 7)
+                {
+                    document.getElementById("message").innerHTML = "You have 2 pairs.<b> No more chances."
+                }
+                else if(roundGame == 5)
+                {
+                    document.getElementById("message").innerHTML = "You have 2 pairs.<br>The probability of getting a Full House is: 7/"+ numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+                }
+                else{
+                    probability = 4/numberOutcomes * 100;
+                    document.getElementById("message").innerHTML = "You have 2 pairs.<br>The probability of getting a Full House is: 4/"+ numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+                }
+            }
+            else if(repNumber < 4 && roundGame == 7)
+            {
+                document.getElementById("message").innerHTML = "No more chances."
+            }
+            else if(repNumber < 3 && roundGame == 6)
+            {
+                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a Full House.<br>You need at least 3 of kind for it."
+            }
+            else if(arrayRep.includes(2) && arrayRep.includes(3) ) //makes sure that a full house its not override
+            {
+                document.getElementById("message").innerHTML = "Well done! You have a Full House!";
+            }
+            else if(repNumber == 3)
+            {
+                if(roundGame == 5)
+                {
+                    probability = 7 / numberOutcomes * 100;
+                    document.getElementById("message").innerHTML = "You have a 3 of a kind.<br>The probability of getting a Full House is: 7/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+                }
+                else{
+                    probability = 1 / numberOutcomes * 100;
+                    document.getElementById("message").innerHTML = "You have a 3 of a kind.<br>The probability of getting a Full House is: 1/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+                }
+            }
+            else if(repNumber == 2)
+            {
+                probability = 11 / numberOutcomes * 100;
+                document.getElementById("message").innerHTML = "The probability of getting a Full House is: 11/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+            }
+            else if(repNumber == 1)
+            {
+                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a Full House.<br>You need at least a pair for it."
+            }
+
         }
 
         function checkProbabFlush(arrayRep, arraySuits)
         {
             let repNumber = highestNumber(arrayRep);
-            //let suitRep = countRepetitions(arrayRep);
-            document.getElementById("message").innerHTML = "Suit Repetition: " + suitRepetition;
+            let suitRep = countRepetitions(arrayRep);
+            let suitFlush = countRepetitions(arraySuits); // updates the variable suitRoyal, sets the suit for the flush
+            let suitString = "";
 
-            if(repNumber == 5)
+            document.getElementById("array").innerHTML = "Suit: " + suitRoyal;
+            //document.getElementById("probability").innerHTML = "Array Suits: " + arraySuits.join(", ");
+            //document.getElementById("head2").innerHTML = "Repetition: "+ arrayRep.join(", ");
+
+            switch(suitRoyal)
+            {
+                case 1:
+                    suitString = "Clubs";
+                    break;
+                case 2:
+                    suitString = "Diamonds";
+                    break;
+                case 3:
+                    suitString = "Spades";
+                    break;
+                case 4:
+                    suitString = "Hearts";
+                    break;
+            }
+            
+
+            if(repNumber < 5 && roundGame == 7)
+            {
+                document.getElementById("message").innerHTML = "No more chances."
+            }
+            else if(repNumber < 4 && roundGame == 6)
+            {
+                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a flush.<br>You need at least 4 cards of the same suit."
+            }
+            else if(repNumber == 5)
             {
                 probability = 10/numberOutcomes * 100;
-                document.getElementById("message").innerHTML = "Well done! You have a flush!";
+                document.getElementById("message").innerHTML = "Well done! You have a flush of " + suitString + "!";
             }
             else if(repNumber == 4)
             {
                 probability = 9/numberOutcomes * 100;
-                document.getElementById("message").innerHTML = "The probability of getting a flush is: 9/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+                document.getElementById("message").innerHTML = "You have 4 " + suitString + ".<br>The probability of getting a flush of " + suitString + " is: 9/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
             }
             else if(repNumber == 3)
             {
                 probability = 10/numberOutcomes * 100;
-                document.getElementById("message").innerHTML = "The probability of getting a flush is: 10/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
+                document.getElementById("message").innerHTML = "You have 3 " + suitString + ".<br>The probability of getting a flush of " + suitString + " is: 10/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
             }
             else if(repNumber < 3)
             {
-                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a flush.<br>You need at least 3 cards of the same suit";
+                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a flush.<br>You need at least 3 cards of the same suit.";
             }
+        }
 
-            
+        function checkProbabStraight(arrayRep, arrayCards){
+            let repNumber = highestNumber(arrayRep);
+            let repetition = countRepetitions(arrayRep);
+            //outputs array with cards in sequence for straight
+            let arrayStraight = [];
+            arrayStraight = arrayCards.sort(function(a,b){return a-b;}); // outputs array in numerical order
+            let valid = 0;
+            let arrayMissing = []; // array of number to complete a straight
+            let indexMissing = 0; 
 
+            if(arrayStraight[0] > 2)
+            {
+                arrayMissing[indexMissing] = arrayStraight[0] - 2;
+                indexMissing++
+                arrayMissing[indexMissing] = arrayStraight[0] - 1;
+                indexMissing++;
+            }
+            else if(arrayStraight[0] == 2)
+            {
+                arrayMissing[indexMissing] = arrayStraight[0] - 1;
+                indexMissing++
+            }
+            for(let i = 0; i < arrayStraight.length; i++)
+            {
+                let checker = arrayStraight[i+1] - arrayStraight[i];
+                if(checker == 4 && roundGame == 5)
+                {
+                    arrayMissing[indexMissing] = arrayStraight[i] + 1;
+                    arrayMissing[indexMissing + 1] = arrayStraight[i] + 2;
+                    arrayMissing[indexMissing + 2] = arrayStraight[i] + 3;
+                    indexMissing += 3;
+                }
+                if(checker == 2)
+                {
+                    arrayMissing[indexMissing] = arrayStraight[i] + 1;
+                    indexMissing++;
+                }
+                if(checker == 3)
+                {
+                    arrayMissing[indexMissing] = arrayStraight[i] + 1;
+                    arrayMissing[indexMissing + 1] = arrayStraight[i] + 2;
+                    indexMissing += 2;
+                }
+            }
+            document.getElementById("probability").innerHTML = "Array Missing: " + arrayMissing;
+            document.getElementById("head2").innerHTML = "Array straight: " + arrayStraight;
+
+            if(repNumber == 4)
+            {
+                document.getElementById("message").innerHTML = "Sorry, there is no chance of getting a straight.<br>You need at least 3 distinct cards close in proximity to a sequential order";
+            }
+        
+          
         }
 
      
@@ -386,7 +559,7 @@ let cardsImage = [];
         let cards1 = [8,6,11,5,7];
         let validCards = validCardsChecker(cards1);
         
-        function validCardsChecker(array) //outputs array with cards in sequence
+        function StraightCards(array) //outputs array with cards in sequence for straight
         {
             array = array.sort(function(a,b){return a-b;}); // outputs array in numerical order
             let valid = 0;
@@ -401,9 +574,6 @@ let cardsImage = [];
                         valid++;
                     }
             }
-                
-           
-
             return arrayCards;
         }
 
