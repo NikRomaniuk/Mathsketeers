@@ -13,7 +13,7 @@
         </div>
         <div id="box2">
             Players: <input id="players" oninput="players()" size="5px"/>
-            <img src="images/start.png" width="50%" onclick="start()" style="cursor: pointer;">
+            <img src="images/start.png" width="50%" onclick="players()" style="cursor: pointer;">
         </div>
 
         <div id="box3">
@@ -108,11 +108,39 @@ let cardsImage = [];
         
        
 
-        function players(){ // number of outcomes depending on the number of players
+        function gameStart(){ // starts the game only after numberPlayers is validated
            let numberPlayers =  document.getElementById("players").value;
            let cardsByPlayer = 2;
            let cardsOut = numberPlayers * cardsByPlayer; 
            numberOutcomes -= cardsOut;
+
+           if(!numberPlayers)
+           {
+                alert("Please enter the number of players.");
+           }
+           else if(numberPlayers < 1 || numPlayers > 4)
+           {
+                alert("Please enter a number of players between 1 and 4.")
+           }
+           else
+            {
+                cardsImage = [];
+                allCards = [];
+                suit = [];
+
+                for(let i = 0; i < 5; i++)
+                {
+                    distributeCards();
+                }
+                document.getElementById("img1").src = "images/" + cardsImage[0] + ".png";
+                document.getElementById("img2").src = "images/" + cardsImage[1] + ".png";
+                document.getElementById("img3").src = "images/" + cardsImage[2] + ".png";
+                document.getElementById("img6").src = "images/" + cardsImage[3] + ".png";
+                document.getElementById("img7").src = "images/" + cardsImage[4] + ".png";
+
+                //document.getElementById("outcomes").innerHTML = "Cards on deck: " + numberOutcomes; // cards on deck  GET THIS ON TO TEST
+                checkCards();
+            }
         }
 
         function distributeCards()
@@ -126,22 +154,7 @@ let cardsImage = [];
 
 
         function start(){
-            cardsImage = [];
-            allCards = [];
-            suit = [];
-
-            for(let i = 0; i < 5; i++)
-            {
-                distributeCards();
-            }
-            document.getElementById("img1").src = "images/" + cardsImage[0] + ".png";
-            document.getElementById("img2").src = "images/" + cardsImage[1] + ".png";
-            document.getElementById("img3").src = "images/" + cardsImage[2] + ".png";
-            document.getElementById("img6").src = "images/" + cardsImage[3] + ".png";
-            document.getElementById("img7").src = "images/" + cardsImage[4] + ".png";
-
-            //document.getElementById("outcomes").innerHTML = "Cards on deck: " + numberOutcomes; // cards on deck  GET THIS ON TO TEST
-            checkCards();
+            
         }
 
 
@@ -636,6 +649,14 @@ let cardsImage = [];
                     }
                 return array;
                 }
+
+            function validatePlayers(numberPlayers)
+            {
+                if(numberPlayers < 0 || numberPlayers > 4)
+                {
+                    document.write("Please enter the number of players.");
+                }
+            }
 
 
         
