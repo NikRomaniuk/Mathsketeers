@@ -23,12 +23,13 @@
             align-items: center;
         }
         .poker-box {
-            background: rgba(0, 0, 0, 0.3); 
-            padding = 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding : 20px;
             align-items: center;
             margin-bottom: 15px;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
         .card {
             width: 40px;
@@ -69,6 +70,10 @@
             margin: 0;
             position: absolute;
             left: 50%;    
+        }
+
+        h2 {
+            color: gold;
         }
     </style>
 </head>
@@ -161,7 +166,12 @@
                 <p>Three cards of the same rank</p>
             </div>
         </div> 
-        <a href="poker.html"><button>OK</button></a>
+    </div>
+    <!--button for the probabilities-->
+    <div class="text-center">
+        <h2 class="mb-3 mt-10">Ready to Calculate Probabilities?</h2>
+        <p class="mb-4">Use our poker probability calculator to analyze hands and improve strategy.</p>
+        <a href="poker.html" class="btn btn-danger btn-lg active" role="button" aria-pressed="true">Go to Game</a>
     </div>
 </body>
 </html>
