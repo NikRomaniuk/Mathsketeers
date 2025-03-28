@@ -12,8 +12,8 @@
             Poker Hand Probability
         </div>
         <div id="box2">
-            Players: <input id="players" oninput="players()" size="5px"/>
-            <img src="images/start.png" width="50%" onclick="gameStart()" style="cursor: pointer;">
+            Players: <input id="players" size="5px"/>
+            <img src="images/start.png" width="50%" onclick="players()" style="cursor: pointer;">
         </div>
 
         <div id="box3">
@@ -108,7 +108,7 @@ let cardsImage = [];
         
        
 
-        function gameStart(){ // starts the game only after numberPlayers is validated
+        function players(){ // starts the game only after numberPlayers is validated
            let numberPlayers =  document.getElementById("players").value;
            let cardsByPlayer = 2;
            let cardsOut = numberPlayers * cardsByPlayer; 
@@ -118,7 +118,7 @@ let cardsImage = [];
            {
                 alert("Please enter the number of players.");
            }
-           else if(numberPlayers < 1 || numPlayers > 4)
+           else if(numberPlayers < 1 || numberPlayers > 4)
            {
                 alert("Please enter a number of players between 1 and 4.")
            }
