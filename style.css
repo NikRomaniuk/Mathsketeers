@@ -72,3 +72,20 @@
         display:flex;
 }
 
+/* Button class inspired from other pages */
+.btn {
+        margin: 0;
+        position: absolute;
+        top: 80%;
+        left: 2%;
+        color: white;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 1);
+        font-family: Arial, sans-serif;
+}
+
+/* This will remove all underlines from all links */
+a {text-decoration: none; }
+
