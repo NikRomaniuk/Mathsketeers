@@ -9,11 +9,10 @@
     </head>
     <body class = "container">
         <div id="box1">
-            Poker Hand Probability
+            <h1 id="title" >Poker Hand Probability</h1>
         </div>
         <div id="box2">
-            Players: <input id="players" size="5px"/><br>
-            <img src="images/start.png" width="50%" onclick="players()" style="cursor: pointer;">
+            Players: <input id="players" oninput="players()" size="5px"/>
         </div>
 
         <div id="box3">
@@ -28,12 +27,12 @@
         <div id="box5">
             <h3>Royal Flush</h3>
             <img src="images/14.png"><img src="images/134.png"><img src="images/124.png"><img src="images/114.png"><img src="images/104.png">
-            <h3 onclick="checkProbability4Kind()" style="cursor: pointer;">Four of a Kind</h3>
+            <h3>Four of a Kind</h3>
             <img src="images/133.png"><img src="images/131.png"><img src="images/132.png"><img src="images/134.png"><img src="images/82.png">
-            <h3 onclick="checkProbabilityFlush()" style="cursor: pointer;">Flush</h3>
+            <h3>Flush</h3>
             <img src="images/13.png"><img src="images/73.png"><img src="images/113.png"><img src="images/23.png"><img src="images/93.png">
-            <h3 onclick="checkProbability3Kind()" style="cursor: pointer;">Three of a Kind</h3>
-            <img src="images/121.png" ><img src="images/123.png"><img src="images/124.png"><img src="images/61.png"><img src="images/22.png">
+            <h3>Three of a Kind</h3>
+            <img src="images/121.png"><img src="images/123.png"><img src="images/124.png"><img src="images/61.png"><img src="images/22.png">
             <h3>Pair</h3>
             <img src="images/111.png"><img src="images/113.png"><img src="images/61.png"><img src="images/54.png"><img src="images/23.png">
         </div>
@@ -41,39 +40,53 @@
         <div id="box6">
             <h3>Straight Flush</h3>
             <img src="images/52.png"><img src="images/62.png"><img src="images/72.png"><img src="images/82.png"><img src="images/92.png">
-            <h3 onclick="checkProbabilityFullHouse()" style="cursor: pointer;">Full House</h3>
+            <h3>Full House</h3>
             <img src="images/61.png"><img src="images/62.png"><img src="images/63.png"><img src="images/11.png"><img src="images/12.png">
-            <h3 onclick="checkProbabilityStraight()" style="cursor: pointer;">Straight</h3>
+            <h3>Straight</h3>
             <img src="images/11.png"><img src="images/22.png"><img src="images/33.png"><img src="images/44.png"><img src="images/52.png">
             <h3>Two Pair</h3>
             <img src="images/91.png"><img src="images/94.png"><img src="images/101.png"><img src="images/102.png"><img src="images/32.png">
             <h3>High Card</h3>
             <img src="images/131.png"><img src="images/54.png"><img src="images/62.png"><img src="images/24.png"><img src="images/114.png">
         </div>
-
-        <div id="box7">
-            <img src="images/round.png" width="60%" onclick="round()" style="cursor: pointer;">
-            
         </div>
-
-        <div id="box8">
-            <h1 id="para2">User Cards</h1>
-                <img id="img6"></img>
-                <img id="img7"></img>
-                <br><br>
-
-            
         </div>
-        <div id="box9">
+        <div id="box6">
             <h1 id="outcomes"></h1>
+
+        </div>
+            <div id="box8">
+            <h1 id="para2">User Cards</h1>
+            <img id="img6"></img>
+            <img id="img7"></img>
+            <br><br>
         </div>
         <div></div>
-        <div id="box11">
+        <div>
+            <button onclick="start()">Start</button>
+            <button onclick="round()">round</button>
+            <button onclick="checkCards()">Check</button>
+            <button onclick="checkProbability3Kind()">3 of a kind</button>
+            <button onclick="checkProbability4Kind()">4 of a kind</button>
+            <button onclick="checkProbabilityFlush()">flush</button>
+            <button onclick="checkProbabilityFullHouse()">Full House</button>
+            <button onclick="checkProbabilityStraight()">Straight</button>
+        </div>
+        <div></div>
+        <div id="box13">
             <h1 id="message"></h1>
             <h1 id="array"></h1>
             <h1 id="probability"></h1>
             <h1 id="head2"></h1>
+            
         </div>
+        <div>
+           
+        </div>
+
+
+
+
     </body>
     <script>
 let cardsImage = [];
@@ -84,54 +97,20 @@ let cardsImage = [];
         let index = 5;
         let arrayRepetition = [];
         let suitRepetition = [];
-        let arrayDif = [];
         let royalCards = [];
-        let arrayStraight = [];
-        let arrayPoss = []; // array of number to complete a straight
         let suitRoyal = 0;
         let probability = 0;
         let numberOutcomes = 49; // cards available in the beggining of the game
         let roundGame = 5; //keeps track to check if its the end of the game
-        let highestDif = 0;
-        let indexDif = 0;
-        let indexMissing = 0;
         
         
        
 
-        function players(){ // starts the game only after numberPlayers is validated
+        function players(){ // number of outcomes depending on the number of players
            let numberPlayers =  document.getElementById("players").value;
            let cardsByPlayer = 2;
            let cardsOut = numberPlayers * cardsByPlayer; 
            numberOutcomes -= cardsOut;
-
-           if(!numberPlayers)
-           {
-                alert("Please enter the number of players.");
-           }
-           else if(numberPlayers < 1 || numberPlayers > 4)
-           {
-                alert("Please enter a number of players between 1 and 4.")
-           }
-           else
-            {
-                cardsImage = [];
-                allCards = [];
-                suit = [];
-
-                for(let i = 0; i < 5; i++)
-                {
-                    distributeCards();
-                }
-                document.getElementById("img1").src = "images/" + cardsImage[0] + ".png";
-                document.getElementById("img2").src = "images/" + cardsImage[1] + ".png";
-                document.getElementById("img3").src = "images/" + cardsImage[2] + ".png";
-                document.getElementById("img6").src = "images/" + cardsImage[3] + ".png";
-                document.getElementById("img7").src = "images/" + cardsImage[4] + ".png";
-
-                //document.getElementById("outcomes").innerHTML = "Cards on deck: " + numberOutcomes; // cards on deck  GET THIS ON TO TEST
-                checkCards();
-            }
         }
 
         function distributeCards()
@@ -145,7 +124,21 @@ let cardsImage = [];
 
 
         function start(){
-            
+            cardsImage = [];
+            allCards = [];
+            suit = [];
+
+            for(let i = 0; i < 5; i++)
+            {
+                distributeCards();
+            }
+            document.getElementById("img1").src = "images/" + cardsImage[0] + ".png";
+            document.getElementById("img2").src = "images/" + cardsImage[1] + ".png";
+            document.getElementById("img3").src = "images/" + cardsImage[2] + ".png";
+            document.getElementById("img6").src = "images/" + cardsImage[3] + ".png";
+            document.getElementById("img7").src = "images/" + cardsImage[4] + ".png";
+
+            //document.getElementById("outcomes").innerHTML = "Cards on deck: " + numberOutcomes; // cards on deck  GET THIS ON TO TEST
         }
 
 
@@ -156,7 +149,6 @@ let cardsImage = [];
             document.getElementById("message").innerHTML = "";
             numberOutcomes--;
             roundGame++; 
-            checkCards();
         }
 
 
@@ -248,7 +240,7 @@ let cardsImage = [];
         }
         function checkProbabilityStraight()
         {
-            let probabStraight  = checkProbabStraight(allCards);
+            let probabStraight  = checkProbabStraight(arrayRepetition, allCards);
         }
 
 
@@ -503,178 +495,24 @@ let cardsImage = [];
             }
         }
 
-        function checkProbabStraight(arrayCards){
-             //outputs array with cards in sequence for straight
-            let arrayStraight = arrayCards.sort(function(a,b){return a-b;});// outputs array in numerical order
-            arrayDif = [];
+        function checkProbabStraight(arrayRep, arrayCards){
+            let repNumber = highestNumber(arrayRep);
+            let repetition = countRepetitions(arrayRep);
+            //outputs array with cards in sequence for straight
+            let arrayStraight = [];
+            arrayStraight = arrayCards.sort(function(a,b){return a-b;}); // outputs array in numerical order
+            let valid = 0;
+            let arrayMissing = []; // array of number to complete a straight
+            let indexMissing = 0; 
 
-
-            let arrayStraightsCopy = [...arrayStraight];
-            let arrayCheck = [];
-            arrayStraightsCopy = removeDuplicates(arrayStraightsCopy);
-            makeArrayDif(arrayStraightsCopy);
-            let arrayDifCopy = [...arrayDif];
-
-            for(let i = 0; i < 3; i++)
+            if(arrayStraight[0] > 2)
             {
-                for(let j = 0; j < 3; j++)
-                {
-                    arrayCheck.push(arrayStraightsCopy[j])
-                }
-
-
-                if(arrayDifCopy[0] < 4)
-                {
-                    if(arrayDifCopy[0] == 3 && arrayDifCopy[1] == 1)
-                    {
-                        arrayPoss.push(arrayCheck[0] + 1);
-                        arrayPoss.push(arrayCheck[0] + 2);
-                    }
-                    else if(arrayDifCopy[0] == 1 && arrayDifCopy[1] == 2)
-                    {
-                        arrayPoss.push(arrayCheck[0] - 1);
-                        arrayPoss.push(arrayCheck[1] + 1);
-                        arrayPoss.push(arrayCheck[2] + 1);
-                    }
-                    else if(arrayDifCopy[0] == 2 && arrayDifCopy[1] == 2)
-                    {
-                        
-                        arrayPoss.push(arrayCheck[0] + 1);
-                        arrayPoss.push(arrayCheck[1] + 1);
-                    }
-                    else if(arrayDifCopy[0] == 2 && arrayDifCopy[1] == 1)
-                    {
-                        arrayPoss.push(arrayCheck[0] - 1);
-                        arrayPoss.push(arrayCheck[0] + 1);
-                        arrayPoss.push(arrayCheck[2] + 1);
-                    }
-                    else if(arrayDifCopy[0] == 1 && arrayDifCopy[1] == 1)
-                    {
-                        
-                        arrayPoss.push(arrayCheck[0] - 2);
-                        arrayPoss.push(arrayCheck[0] - 1);
-                        arrayPoss.push(arrayCheck[2] + 1);
-                        arrayPoss.push(arrayCheck[2] + 2);
-                    }
-                    else if(arrayDifCopy[0] == 1 && arrayDifCopy[1] == 3)
-                    {
-                        arrayPoss.push(arrayCheck[1] + 1);
-                        arrayPoss.push(arrayCheck[1] + 2);
-                    }
-                    
-                }
-                arrayCheck = [];
-                arrayStraightsCopy.splice(0, 1);
-                arrayDifCopy.splice(0, 1);
-            }
-
-
-            arrayPoss = removeDuplicatesPoss(arrayPoss, allCards);
-            arrayPoss = removeOutsiders(arrayPoss);
-
-            if(arrayPoss.length == 0)
-            {
-                document.getElementById("message").innerHTML = "Sorry, you need at least 3 cards close to each other";
-            }
-            else{
-                probability = (arrayPoss.length * 4) / numberOutcomes * 100; 
-                document.getElementById("message").innerHTML = "You need the following cards to try to make a straight: " + arrayPoss.join(", ");
-                document.getElementById("message").innerHTML +="<br>The probability of getting a straight is:   " + (arrayPoss.length * 4) + "/" + numberOutcomes + " (" + Number(probability.toFixed(2)) + "%)";
-            }
-
-            document.getElementById("probability").innerHTML = "arrayStraight: " + arrayStraight.join(", ");
-            document.getElementById("array").innerHTML = "arrayDif: " + arrayDif.join(", ");
-            document.getElementById("head2").innerHTML = "arrayPoss: " + arrayPoss.join(", ");            
-
-
-
-            }
-
-            function makeArrayDif(array)
-            {
-                array = array.sort(function(a,b){return a-b;}); // outputs array in numerical order
-                for(let i = 0; i < array.length - 1; i++)
-                    {
-                        let checker = array[i+1] - array[i];
-                            arrayDif.push(checker);
-                    }
-            }
-
-            function removeDuplicates(array)
-            {
-            array = array.sort(function(a,b){return a-b;}); // outputs array in numerical order
-            for(let i = 0; i < array.length; i++)
-            {
-                if(array[i] == array[i + 1])
-                {
-                    array.splice(i, 1);
-                    i--;
-                }
-            }
-            return array;
-            }
-
-            function removeDuplicatesPoss(array, arrayCards)
-            {
-                array = array.sort(function(a,b){return a-b;}); // outputs array in numerical order
-                for(let i = 0; i < array.length; i++)
-                {
-                    if((array[i] == array[i + 1]) || arrayCards.includes(array[i]))
-                    {
-                        array.splice(i, 1);
-                        i--;
-                    }
-                }
-                return array;
-            }
-
-            function removeOutsiders(array)
-            {
-                for(let i = 0; i < array.length; i++)
-                    {
-                        if(array[i] < 1 || array[i] > 13)
-                        {
-                            array.splice(i, 1);
-                            i--;
-                        }
-                    }
-                return array;
-                }
-
-            function validatePlayers(numberPlayers)
-            {
-                if(numberPlayers < 0 || numberPlayers > 4)
-                {
-                    document.write("Please enter the number of players.");
-                }
-            }
-
-
-        
-
-        
-
-            
-
-
-
-
-
-
-
-
-
-
-            /*
-
-            if(arrayStraight[0] > 2) // gets 2 previous cards 
-            {
-                arrayMissing[indexMissing] = arrayStraight[0] - 2; // if the first number of the straight greater than 2, gets the second previous number
-                indexMissing++;
-                arrayMissing[indexMissing] = arrayStraight[0] - 1; // gets the previous number
+                arrayMissing[indexMissing] = arrayStraight[0] - 2;
+                indexMissing++
+                arrayMissing[indexMissing] = arrayStraight[0] - 1;
                 indexMissing++;
             }
-            else if(arrayStraight[0] == 2) // if the first number of the straight equal to 2, gets ace card
+            else if(arrayStraight[0] == 2)
             {
                 arrayMissing[indexMissing] = arrayStraight[0] - 1;
                 indexMissing++
@@ -700,18 +538,6 @@ let cardsImage = [];
                     arrayMissing[indexMissing + 1] = arrayStraight[i] + 2;
                     indexMissing += 2;
                 }
-                if(arrayStraight[arrayStraight.length-1] <= 11) //if the last number of the straight lesser than 12, gets 2 next number
-                {
-                    arrayMissing[indexMissing] = arrayStraight[arrayStraight.length-1] + 1;
-                    indexMissing++
-                    arrayMissing[indexMissing] = arrayStraight[arrayStraight.length-1] + 2;
-                    indexMissing++;
-                }
-                else if(arrayStraight[arrayStraight.length-1] == 12) //if the last number of the straight equal to 12, gets number 13
-                {
-                    arrayMissing[indexMissing] = arrayStraight[arrayStraight.length] + 1;
-                    indexMissing++
-                }
             }
             document.getElementById("probability").innerHTML = "Array Missing: " + arrayMissing;
             document.getElementById("head2").innerHTML = "Array straight: " + arrayStraight;
@@ -722,7 +548,7 @@ let cardsImage = [];
             }
         
           
-       
+        }
 
      
 
