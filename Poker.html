@@ -43,7 +43,7 @@
             <img src="images/52.png"><img src="images/62.png"><img src="images/72.png"><img src="images/82.png"><img src="images/92.png">
             <h3 onclick="checkProbabilityFullHouse()" style="cursor: pointer;">Full House</h3>
             <img src="images/61.png"><img src="images/62.png"><img src="images/63.png"><img src="images/11.png"><img src="images/12.png">
-            <h3 onclick="checkProbabilityStraight()" style="cursor: pointer;">Straight</h3>
+            <h3 >Straight</h3>
             <img src="images/11.png"><img src="images/22.png"><img src="images/33.png"><img src="images/44.png"><img src="images/52.png">
             <h3>Two Pair</h3>
             <img src="images/91.png"><img src="images/94.png"><img src="images/101.png"><img src="images/102.png"><img src="images/32.png">
@@ -462,7 +462,7 @@
             let suitFlush = countRepetitions(arraySuits); // updates the variable suitRoyal, sets the suit for the flush
             let suitString = "";
 
-            document.getElementById("array").innerHTML = "Suit: " + suitRoyal;
+            //document.getElementById("array").innerHTML = "Suit: " + suitRoyal;
             //document.getElementById("probability").innerHTML = "Array Suits: " + arraySuits.join(", ");
             //document.getElementById("head2").innerHTML = "Repetition: "+ arrayRep.join(", ");
 
@@ -662,7 +662,6 @@
                 document.getElementById("message").innerHTML = "Sorry, no more chances.";
             }
             
-               
 
             if(roundGame == 5)
             {
@@ -677,9 +676,9 @@
                 }
             }
             isStraight = 0;
-            document.getElementById("probability").innerHTML = "arrayStraight: " + arrayStraight.join(", ");
-            document.getElementById("array").innerHTML = "arrayDif: " + arrayDif.join(", ");
-            document.getElementById("head2").innerHTML = "arrayPoss: " + arrayPoss.join(", ");   
+            //document.getElementById("probability").innerHTML = "arrayStraight: " + arrayStraight.join(", ");
+            //document.getElementById("array").innerHTML = "arrayDif: " + arrayDif.join(", ");
+            //document.getElementById("head2").innerHTML = "arrayPoss: " + arrayPoss.join(", ");   
             
         
         }
